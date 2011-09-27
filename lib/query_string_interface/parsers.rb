@@ -1,0 +1,5 @@
+require "query_string_interface/parsers/date_time_parser"
+require "query_string_interface/parsers/number_parser"
+require "query_string_interface/parsers/array_parser"
+require "query_string_interface/parsers/regex_parser"
+require "query_string_interface/parsers/boolean_and_nil_parser"
