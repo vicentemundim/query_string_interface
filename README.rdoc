@@ -24,7 +24,7 @@ To use it, just extend QueryStringInterface in your document model:
 
   class Document
     include Mongoid::Document
-    extend Mongoid::QueryInterfaceString
+    extend QueryInterfaceString
 
     # ... add fields here
   end
