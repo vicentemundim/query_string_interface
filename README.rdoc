@@ -37,7 +37,7 @@ Then, you can use some class methods with your ORM syntax:
 
 = ORM Adapters
 
-http://github.com/vicentemundin/mongoid_query_string_interface
+http://github.com/vicentemundim/mongoid_query_string_interface
 
 = Credits
 
