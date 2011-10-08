@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe QueryStringInterface::Parsers::ArrayParser do
   subject do
-    described_class.new(QueryStringInterface::ARRAY_CONDITIONAL_OPERATORS)
+    described_class.new
   end
 
   QueryStringInterface::ARRAY_CONDITIONAL_OPERATORS.each do |operator|
