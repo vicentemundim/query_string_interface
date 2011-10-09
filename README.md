@@ -41,5 +41,5 @@ http://github.com/vicentemundim/mongoid_query_string_interface
 
 # Credits
 
-Vicente Mundim: vicente.mundim at gmail dot com
-Wandenberg Peixoto: wandenberg at gmail dot com
+- Vicente Mundim: vicente.mundim at gmail dot com
+- Wandenberg Peixoto: wandenberg at gmail dot com
