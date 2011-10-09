@@ -1,16 +1,14 @@
-= Overview
+# Overview ![alt build status](https://secure.travis-ci.org/vicentemundim/query_string_interface.png "Build Status")
 
-https://secure.travis-ci.org/vicentemundim/query_string_interface.png
-
-== About QueryStringInterace
+### About QueryStringInterace
 
 This gem extracts params given as a hash to structured data, that can be used when creating queries
 
-== Repository
+### Repository
 
 http://github.com/vicentemundim/query_string_interface
 
-= Installing
+## Installing
 
 This is a gem, so you can install it by:
 
@@ -20,7 +18,7 @@ Or, if you are using rails, put this in your Gemfile:
 
   gem 'query_string_interface'
 
-= Usage
+## Usage
 
 To use it, just extend QueryStringInterface in your document model:
 
@@ -37,10 +35,11 @@ Then, you can use some class methods with your ORM syntax:
     where(filtering_options(params)).order_by(*sorting_options(params))
   end
 
-= ORM Adapters
+# ORM Adapters
 
 http://github.com/vicentemundim/mongoid_query_string_interface
 
-= Credits
+# Credits
 
 Vicente Mundim: vicente.mundim at gmail dot com
+Wandenberg Peixoto: wandenberg at gmail dot com
