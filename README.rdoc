@@ -1,6 +1,6 @@
 = Overview
 
-![alt build status](https://secure.travis-ci.org/vicentemundim/query_string_interface.png "Build Status")
+https://secure.travis-ci.org/vicentemundim/query_string_interface.png
 
 == About QueryStringInterace
 
