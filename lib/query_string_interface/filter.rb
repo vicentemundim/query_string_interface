@@ -114,13 +114,23 @@ module QueryStringInterface
       end
 
       def json_value
-        raw_or_data = ActiveSupport::JSON.decode(unescaped_raw_value)
+        raw_or_data = disable_active_support_datetime_parsing do
+          ActiveSupport::JSON.decode(unescaped_raw_value)
+        end
 
         raise "$or query filters must be given as an array of hashes" unless valid_or_filters?(raw_or_data)
 
         raw_or_data.map do |filters|
           FilterCollection.new(filters, {}, @attributes_to_replace, @raw_params)
         end
+      end
+
+      def disable_active_support_datetime_parsing
+        old_value = ActiveSupport.parse_json_times
+        ActiveSupport.parse_json_times = false
+        result = yield
+        ActiveSupport.parse_json_times = old_value
+        result
       end
 
       def valid_or_filters?(raw_or_data)

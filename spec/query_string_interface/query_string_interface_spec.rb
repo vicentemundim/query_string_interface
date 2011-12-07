@@ -310,6 +310,30 @@ describe QueryStringInterface do
           }.with_indifferent_access
         end
 
+        context "when ActiveSupport.parse_json_times is enabled" do
+          before { ActiveSupport.parse_json_times = true }
+          after  { ActiveSupport.parse_json_times = false }
+
+          it "should properly convert dates" do
+            Document.filtering_options('or' => '[{"created_at.gte": "2010-01-01"}, {"created_at.lt": "2010-02-15"}]').should == {
+              :$or => [
+                {:created_at => { :$gte => Time.parse("2010-01-01") }},
+                {:created_at => { :$lt => Time.parse("2010-02-15") }}
+              ],
+              :status => 'published'
+            }.with_indifferent_access
+          end
+
+          it "should leave ActiveSupport.parse_json_times with the old value" do
+            Document.filtering_options('or' => '[{"created_at.gte": "2010-01-01"}, {"created_at.lt": "2010-02-15"}]')
+            ActiveSupport.parse_json_times.should be_true
+
+            ActiveSupport.parse_json_times = false
+            Document.filtering_options('or' => '[{"created_at.gte": "2010-01-01"}, {"created_at.lt": "2010-02-15"}]')
+            ActiveSupport.parse_json_times.should be_false
+          end
+        end
+
         context "with other parameters outside $or" do
           context "that use array conditional operators" do
             context "with single values" do
