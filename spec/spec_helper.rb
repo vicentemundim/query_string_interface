@@ -34,8 +34,4 @@ RSpec.configure do |config|
   config.mock_with :rspec
 
   config.include ParseDates
-
-  config.before :each do
-    Time.zone = 'Brasilia'
-  end
 end

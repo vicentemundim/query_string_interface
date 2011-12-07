@@ -129,6 +129,13 @@ describe QueryStringInterface do
             :status => 'published'
           }.with_indifferent_access
         end
+
+        it "should parse a date with + signs correctly" do
+          Document.filtering_options("created_at" => "2011-12-07T20:27:26+05:00").should == {
+            :created_at => "2011-12-07T20:27:26+05:00",
+            :status => 'published'
+          }.with_indifferent_access
+        end
       end
 
       context 'with number values' do
@@ -268,7 +275,7 @@ describe QueryStringInterface do
 
         it "should properly use the $in operator when only one date time value is given" do
           with_parsed_dates(Document.filtering_options("created_at.in" => Time.now.iso8601)).should == {
-            :created_at => {:$in => [Time.now.iso8601]}, :status => 'published'
+            :created_at => {:$in => [Time.now.to_s]}, :status => 'published'
           }.with_indifferent_access
         end
 
