@@ -35,7 +35,7 @@ RSpec.configure do |config|
 
   config.include ParseDates
 
-  config.before :all do
+  config.before :each do
     Time.zone = 'Brasilia'
   end
 end
