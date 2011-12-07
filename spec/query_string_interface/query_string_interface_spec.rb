@@ -267,8 +267,8 @@ describe QueryStringInterface do
         end
 
         it "should properly use the $in operator when only one date time value is given" do
-          with_parsed_dates(Document.filtering_options("created_at.in" => Time.now.localtime.iso8601)).should == {
-            :created_at => {:$in => [Time.now.localtime.to_s]}, :status => 'published'
+          with_parsed_dates(Document.filtering_options("created_at.in" => Time.now.iso8601)).should == {
+            :created_at => {:$in => [Time.now.iso8601]}, :status => 'published'
           }.with_indifferent_access
         end
 

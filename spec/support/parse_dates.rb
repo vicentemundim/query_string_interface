@@ -12,7 +12,11 @@ module ParseDates
       value.inject({}) { |r, i| k, v = i; r[k] = parse_dates_in(v); r }.with_indifferent_access
     elsif value.is_a?(Array)
       value.map { |i| parse_dates_in(i) }
-    elsif value.is_a?(Date) || value.is_a?(DateTime) || value.is_a?(Time)
+    elsif value.is_a?(Time)
+      value.localtime.iso8601
+    elsif value.is_a?(DateTime)
+      value.to_time.localtime.iso8601
+    elsif value.is_a?(Date)
       value.to_s
     else
       value
