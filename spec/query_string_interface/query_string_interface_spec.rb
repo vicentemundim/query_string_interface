@@ -123,9 +123,9 @@ describe QueryStringInterface do
 
       context 'with date values' do
         it 'should parse a date correctly' do
-          options = Document.filtering_options('created_at' => 2.days.ago.to_s)
+          options = Document.filtering_options('created_at' => 2.days.ago.to_time.to_s)
           with_parsed_dates(options).should == {
-            :created_at => 2.days.ago.to_s,
+            :created_at => 2.days.ago.to_time.to_s,
             :status => 'published'
           }.with_indifferent_access
         end
@@ -267,8 +267,8 @@ describe QueryStringInterface do
         end
 
         it "should properly use the $in operator when only one date time value is given" do
-          with_parsed_dates(Document.filtering_options("created_at.in" => Time.now.iso8601)).should == {
-            :created_at => {:$in => [Time.now.to_s]}, :status => 'published'
+          with_parsed_dates(Document.filtering_options("created_at.in" => Time.now.localtime.iso8601)).should == {
+            :created_at => {:$in => [Time.now.localtime.to_s]}, :status => 'published'
           }.with_indifferent_access
         end
 
