@@ -17,6 +17,6 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency(%q<rspec>, [">= 2.6.0"])
 
-  s.files = Dir.glob("lib/**/*") + %w(MIT_LICENSE README.rdoc Gemfile Gemfile.lock)
+  s.files = Dir.glob("lib/**/*") + %w(MIT_LICENSE README.md Gemfile Gemfile.lock)
   s.require_paths = ["lib"]
 end
