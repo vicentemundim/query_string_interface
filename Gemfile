@@ -4,6 +4,7 @@ gemspec
 
 gem "rake", "0.8.7"
 gem "i18n"
+gem "tzinfo"
 
 platforms :mri_18 do
   gem "ruby-debug"

@@ -111,11 +111,11 @@ describe QueryStringInterface do
       end
 
       it 'should accept different conditional operators for the same attribute' do
-        options = Document.filtering_options('created_at.gt' => 6.days.ago.to_s, 'created_at.lt' => 4.days.ago.to_s)
+        options = Document.filtering_options('created_at.gt' => 6.days.ago.to_time.to_s, 'created_at.lt' => 4.days.ago.to_time.to_s)
         with_parsed_dates(options).should == {
           :created_at => {
-            :$gt => 6.days.ago.to_s,
-            :$lt => 4.days.ago.to_s
+            :$gt => 6.days.ago.to_time.to_s,
+            :$lt => 4.days.ago.to_time.to_s
           },
           :status => 'published'
         }.with_indifferent_access
