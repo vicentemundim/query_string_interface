@@ -1,4 +1,4 @@
-require 'cgi'
+require 'uri'
 require 'json'
 
 module QueryStringInterface
@@ -138,7 +138,7 @@ module QueryStringInterface
       end
 
       def unescaped_raw_value
-        @unescaped_raw_value ||= raw_value.is_a?(String) ? CGI.unescape(raw_value) : raw_value
+        @unescaped_raw_value ||= raw_value.is_a?(String) ? URI.unescape(raw_value) : raw_value
       end
 
       def conditional_array_operators

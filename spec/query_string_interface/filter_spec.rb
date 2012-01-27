@@ -21,11 +21,11 @@ describe QueryStringInterface::Filter do
 
     context "with escaped values" do
       subject do
-        described_class.new('title', CGI.escape('Some Title'))
+        described_class.new('title', URI.escape('Some Title +D'))
       end
 
       it "should unescape value" do
-        subject.value.should eq('Some Title')
+        subject.value.should eq('Some Title +D')
       end
     end
 
@@ -172,11 +172,11 @@ describe QueryStringInterface::Filter do
 
       context "with escaped values" do
         subject do
-          described_class.new("or", CGI.escape('[{"title": "Some Title"}, {"title": "Some Other Title"}]'))
+          described_class.new("or", URI.escape('[{"title": "Some Title +D"}, {"title": "Some Other Title +D"}]'))
         end
 
         it "should unescape value" do
-          subject.value.should eq([{ 'title' => 'Some Title' }, { 'title' => 'Some Other Title' }])
+          subject.value.should eq([{ 'title' => 'Some Title +D' }, { 'title' => 'Some Other Title +D' }])
         end
       end
 
@@ -217,11 +217,11 @@ describe QueryStringInterface::Filter do
 
         context "with escaped values" do
           subject do
-            described_class.new("title.#{operator}", CGI.escape('Some Title'))
+            described_class.new("title.#{operator}", URI.escape('Some Title +D'))
           end
 
           it "should unescape value" do
-            subject.value.should eq({ "$#{operator}" => 'Some Title' })
+            subject.value.should eq({ "$#{operator}" => 'Some Title +D' })
           end
         end
 
@@ -347,11 +347,11 @@ describe QueryStringInterface::Filter do
 
         context "with escaped values" do
           subject do
-            described_class.new("tags.#{operator}", CGI.escape('Some Value|Some Other Value|Another value'))
+            described_class.new("tags.#{operator}", URI.escape('Some Value|Some Other Value|Another value +D'))
           end
 
           it "should unescape values" do
-            subject.value.should eq({ "$#{operator}" => ['Some Value', 'Some Other Value', 'Another value'] })
+            subject.value.should eq({ "$#{operator}" => ['Some Value', 'Some Other Value', 'Another value +D'] })
           end
         end
 
