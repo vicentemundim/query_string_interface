@@ -7,7 +7,7 @@ module QueryStringInterface
 
       def parse(value)
         if value =~ /^\/(.*)\/(i|m|x)?$/
-          eval($&)
+          Regexp.new $1, $2
         end
       end
     end

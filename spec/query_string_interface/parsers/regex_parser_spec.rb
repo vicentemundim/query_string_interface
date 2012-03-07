@@ -28,4 +28,15 @@ describe QueryStringInterface::Parsers::RegexParser do
   it "should not parse an invalid regex" do
     subject.parse('/\d*(.*)-[a-zA-Z]').should be_nil
   end
+
+  it "should be able to parse regexp with '/' character" do
+    ['/2012/20/i', "/2012/20/i", "/2012\/20/i"].each do |raw_regexp|
+      regexp = subject.parse(raw_regexp)
+      regexp.should eql(%r{2012/20}i), "Expected #{raw_regexp} to be parsed as #{regexp.inspect}"
+      "2012/20".should match(regexp)
+    end
+
+    subject.parse('/2012\/20/i').should eql(/2012\/20/i)
+    "2012/20".should match(subject.parse('/2012\/20/i'))
+  end
 end
