@@ -52,14 +52,22 @@ module QueryStringInterface
 
       def optimized_filter_parsers
         if or_filter_parser
-          filter_parsers.inject([]) do |result, filter_parser|
-            if filter_parser != or_filter_parser && or_filter_parser.include?(filter_parser)
-              or_filter_parser.merge(filter_parser)
-            else
-              result << filter_parser
+          if or_filter_parser.value.is_a?(Array) && or_filter_parser.value.count == 1
+            or_inner_filters = or_filter_parser.value.first.with_indifferent_access.map do |raw_attribute, raw_value|
+              Filter.new(raw_attribute, raw_value, @attributes_to_replace, @raw_filters)
             end
+            filter_parsers.delete(or_filter_parser)
+            filter_parsers + or_inner_filters
+          else
+            filter_parsers.inject([]) do |result, filter_parser|
+              if filter_parser != or_filter_parser && or_filter_parser.include?(filter_parser)
+                or_filter_parser.merge(filter_parser)
+              else
+                result << filter_parser
+              end
 
-            result
+              result
+            end
           end
         else
           filter_parsers

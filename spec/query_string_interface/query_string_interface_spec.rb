@@ -317,6 +317,26 @@ describe QueryStringInterface do
           }.with_indifferent_access
         end
 
+        context "with only one clause on 'or' attribute" do
+          it "should simplify the query" do
+            Document.filtering_options('or' => '[{"tags.all": ["flamengo", "basquete"], "type": "any"}]').should == {
+                :tags => { :$all => ['flamengo', 'basquete'] },
+                :status => 'published',
+                :type => 'any'
+              }.with_indifferent_access
+          end
+
+          context "and the same key in another clause" do
+            it "should simplify the query" do
+              Document.filtering_options("tags.nin" => ["fluminense", "vasco"], 'or' => '[{"tags.all": ["flamengo", "basquete"], "type": "any"}]').should == {
+                  :tags => { :$all => ['flamengo', 'basquete'], :$nin => ["fluminense", "vasco"] },
+                  :status => 'published',
+                  :type => 'any'
+                }.with_indifferent_access
+            end
+          end
+        end
+
         context "when ActiveSupport.parse_json_times is enabled" do
           before { ActiveSupport.parse_json_times = true }
           after  { ActiveSupport.parse_json_times = false }
@@ -353,6 +373,17 @@ describe QueryStringInterface do
                   :status => 'published'
                 }.with_indifferent_access
               end
+            end
+          end
+
+          context "with only one clause on 'or' attribute" do
+            it "should simplify the query" do
+              Document.filtering_options("title" => 'flamengo', 'or' => '[{"tags.all": ["flamengo", "basquete"], "type": "any"}]').should == {
+                :tags => { :$all => ['flamengo', 'basquete'] },
+                :status => 'published',
+                :title => 'flamengo',
+                :type => 'any'
+              }.with_indifferent_access
             end
           end
         end
