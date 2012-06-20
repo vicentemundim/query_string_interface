@@ -458,4 +458,40 @@ describe QueryStringInterface do
       Document.pagination_options(:page => 3).should == Document.default_pagination_options.merge(:page => 3).with_indifferent_access
     end
   end
+
+  context "with field filtering" do
+    [:only, :except].each do |field_filtering_operator|
+      describe "using #{field_filtering_operator}" do
+        it "should not use field filtering operators when filtering" do
+          Document.filtering_options(field_filtering_operator => 'title', 'tags.all' => 'flamengo').should == {
+            :status => 'published', :tags => { :$all => ['flamengo'] }
+          }.with_indifferent_access
+        end
+
+        context "when returning field filtering options" do
+          context "when no field filtering operator is specified" do
+            it "should return nil" do
+              Document.field_filtering_options('tags.all' => 'flamengo').should be_nil
+            end
+          end
+
+          context "when only one field is specified" do
+            it "should return the field as an array" do
+              Document.field_filtering_options(field_filtering_operator => 'title', 'tags.all' => 'flamengo').should == {
+                field_filtering_operator => ['title']
+              }.with_indifferent_access
+            end
+          end
+
+          context "when more than one field is specified" do
+            it "should return the fields as an array" do
+              Document.field_filtering_options(field_filtering_operator => 'title|description', 'tags.all' => 'flamengo').should == {
+                field_filtering_operator => ['title', 'description']
+              }.with_indifferent_access
+            end
+          end
+        end
+      end
+    end
+  end
 end
