@@ -70,8 +70,8 @@ module QueryStringInterface
 
     private
       def parsed_attribute
-        if raw_attribute.respond_to?(:key)
-          raw_attribute.key.to_s
+        if raw_attribute.respond_to?(:name)
+          raw_attribute.name.to_s
         elsif or_attribute?
           '$or'
         elsif raw_attribute =~ QueryStringInterface::ATTRIBUTE_REGEX

@@ -1,20 +1,27 @@
 class Criterion
-  attr_accessor :key, :operator
+  attr_accessor :name, :operator
 
   def initialize(options)
-    @key = options[:key]
-    @operator = options[:operator]
+    self.name = options[:name]
+    self.operator = options[:operator]
   end
 end
 
 class Symbol
-  QueryStringInterface::OPERATORS.each do |oper|
-    m, oper = oper
-    oper = m unless oper
-    class_eval <<-OPERATORS
-      def #{m}
-        Criterion.new(:key => self, :operator => "#{oper}")
-      end
-    OPERATORS
+  (QueryStringInterface::CONDITIONAL_OPERATORS + [QueryStringInterface::OR_OPERATOR]).each do |operator|
+    method, operator = operator
+    operator = method unless operator
+
+    define_method(method) do
+      Criterion.new(:name => self, :operator => operator)
+    end
+  end
+
+  def asc
+    Criterion.new(:name => self, :operator => 1)
+  end
+
+  def desc
+    Criterion.new(:name => self, :operator => -1)
   end
 end

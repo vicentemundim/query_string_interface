@@ -27,8 +27,8 @@ module QueryStringInterface
 
     private
       def replace(filter)
-        if filter.respond_to?(:key) && filter.respond_to?(:operator)
-          replaced_item_for filter.key, filter.operator
+        if filter.respond_to?(:name) && filter.respond_to?(:operator)
+          replaced_item_for filter.name, filter.operator == 1 ? :asc : :desc
         elsif filter.is_a?(String) or filter.is_a?(Symbol)
           if match = matches?(filter)
             replaced_item_for match[1], match[2]
