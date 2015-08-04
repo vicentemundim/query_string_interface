@@ -28,4 +28,9 @@ describe QueryStringInterface::Parsers::DateTimeParser do
       subject.parse(time).should == Time.parse(time)
     end
   end
+
+  it "should raise error if is an invalid date with valid format" do
+    expect{ subject.parse("2010-30-02") }.to raise_error(QueryStringInterface::DateTimeParseError)
+    expect(QueryStringInterface::DateTimeParseError.new).to be_a(ArgumentError)
+  end
 end
