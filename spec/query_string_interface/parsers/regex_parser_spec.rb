@@ -36,7 +36,7 @@ describe QueryStringInterface::Parsers::RegexParser do
       "2012/20".should match(regexp)
     end
 
-    subject.parse('/2012\/20/i').should eql(/2012\/20/i)
+    subject.parse("/2012\/20/i").should eql(/2012\/20/i)
     "2012/20".should match(subject.parse('/2012\/20/i'))
   end
 end
