@@ -10,7 +10,11 @@ module QueryStringInterface
 
       def parse(value)
         value.gsub!(ESCAPED_ZONE_REGEX) { "+#{$1}" }
-        Time.parse(value)
+        begin
+          Time.parse(value)
+        rescue ArgumentError => e
+          raise DateTimeParseError.new e
+        end
       end
     end
   end
