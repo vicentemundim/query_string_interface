@@ -6,6 +6,6 @@ gem "rake"
 gem "i18n"
 gem "tzinfo"
 
-gem "debugger"
+gem "byebug"
 gem 'simplecov', :require => false
 
