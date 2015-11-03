@@ -38,6 +38,10 @@ module QueryStringInterface
       raw_attribute == 'or'
     end
 
+    def or_value
+      @or_value ||= JSON.parse(raw_value) if or_attribute?
+    end
+
     def include?(other_filter)
       if or_attribute?
         json_value.any? do |filters|
@@ -63,8 +67,10 @@ module QueryStringInterface
           result[filter_operation] = filter_value
           result
         end
-      else
+      elsif !operator.nil? && !other_filter.operator.nil?
         @value = value.merge(other_filter.value)
+      else
+        raise MixedArgumentError, "arguments `#{raw_attribute}` and `#{other_filter.raw_attribute}` could not be mixed"
       end
     end
 
