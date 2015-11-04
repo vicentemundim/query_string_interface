@@ -389,6 +389,10 @@ describe QueryStringInterface::Filter do
       it "should merge other filter if they have an array conditional operator and their attribute is used in one of the or clauses" do
         subject.merge(other_filter).should eq([{'title' => 'Some Title', 'tags' => {'$all' => ['Other filter tag']}}, {'count' => { '$gte' => 1, '$lt' => 10 }, 'tags' => {'$all' => ['Other filter tag']}}, {'tags' => { '$all' => ['Some tag', 'Other tag', 'Other filter tag'], '$nin' => ["A tag", "Another tag"] }}])
       end
+
+      it "should not merge other filter if it does not have an operator" do
+        expect { subject.merge(described_class.new('tags', 'Problem tag')) }.to raise_error(QueryStringInterface::MixedArgumentError, "arguments `tags.all` and `tags` could not be mixed")
+      end
     end
 
     describe "normal filters" do

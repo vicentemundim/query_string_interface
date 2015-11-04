@@ -334,6 +334,14 @@ describe QueryStringInterface do
                   :type => 'any'
                 }.with_indifferent_access
             end
+
+            it "should simplify the query" do
+              Document.filtering_options("tags.nin" => ["fluminense", "vasco"], 'or' => '[{"tags.all": ["flamengo", "basquete"], "type": "any"}, {"tags.all": ["botafogo", "volei"], "kind": "any"}]').should == {
+                  :tags => { :$nin => ["fluminense", "vasco"] },
+                  :$or => [{ :tags => { :$all => ["flamengo", "basquete"] }, :type => "any" }, { :tags => { :$all => ["botafogo", "volei"] }, :kind => "any" }],
+                  :status => 'published',
+                }.with_indifferent_access
+            end
           end
         end
 
